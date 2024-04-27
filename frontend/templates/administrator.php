@@ -85,7 +85,7 @@
                                 <ul id="dropdown-layouts" style="display: none"
                                     class="py-2 space-y-2 bg-gray-200 rounded px-2" x-show="show">
                                     <li>
-                                        <a href="<?= site_url('admin/kelola/beras') ?>"
+                                        <a href="<?= site_url('administrator/users-and-groups/users') ?>"
                                             class="flex items-center py-2 pl-10 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100">Kelola
                                             Pengguna</a>
                                     </li>
