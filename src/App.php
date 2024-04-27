@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Core\Contract\ManagerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Application is ...
@@ -14,19 +15,13 @@ final class App
      * @var array
      */
     private array $config = [];
-    /**
-     * Summary of manager
-     * @var 
-     */
-    private ?ManagerInterface $manager;
 
     /**
      * Summary of __construct
      * @param \App\Core\Contract\ManagerInterface $manager
      */
-    public function __construct(ManagerInterface $manager)
+    public function __construct(private readonly ?ManagerInterface $manager = null, private readonly ?ContainerInterface $container = null)
     {
-        $this->manager = $manager;
     }
 
     /**
@@ -36,6 +31,33 @@ final class App
     public function getManager(): ManagerInterface
     {
         return $this->manager;
+    }
+
+
+    /**
+     * Summary of getManager
+     * @return ContainerInterface
+     */
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
+    }
+
+
+
+    public function loadFunction(string $name, \Closure $callback = null)
+    {
+        $functionName = "";
+        if (file_exists(sprintf("%s/%s.php", __DIR__, $name)))
+            $functionName = sprintf("%s/%s.php", __DIR__, $name);
+
+        if (file_exists(sprintf("%s/functions/%s.php", __DIR__, $name)))
+            $functionName = sprintf("%s/functions/%s.php", __DIR__, $name);
+
+        if (is_callable($callback))
+            return $callback($functionName);
+
+        require_once $functionName;
     }
 
     /**
@@ -55,9 +77,10 @@ final class App
      */
     public function setEnvironment(string $env = "development"): self
     {
-        $env = strtolower($env ?? $this->getConfigFrom('app', 'env'));
+        $env = strtolower($env ?? $this->getManager()->getConfiguration()->get('app', 'env'));
 
-        if ($env == 'prod' || $env == 'production' || $env == 'prods') {
+        if ($env == 'prod' || $env == 'production' || $env == 'prods')
+        {
             ini_set('display_errors', 0);
             ini_set('log_errors', 1);
             error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -82,17 +105,18 @@ final class App
         $this->getManager()->getTemplate()->setTemplateName('public');
 
         /** @var \App\Entities\User $user */
-        $user = $this->getManager()->getSession()->get('authenticated');
-        if ($user) {
-            $roles = $this->getManager()->getConfiguration()->get('app', 'roles');
-            $this->getManager()->getTemplate()->setUserTemplateFromConfiguration($user, $roles);
+        $user = $this->getManager()->getSession()->get('auth');
+        if ($user)
+        {
+            $this->getManager()->getTemplate()->setTemplateName($user['users']->getRole()->pageTemplate());
         }
 
         $template = $this->getManager()->getTemplate()->getTemplate();
         $content = $this->getManager()->getRouter()->getContent();
 
         $this->getManager()->getResponse()->render(
-            $template, $content
+            $template,
+            $content
         );
 
         $this->getManager()->getSession()->remove('temp');
