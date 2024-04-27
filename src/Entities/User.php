@@ -2,7 +2,10 @@
 
 namespace App\Entities;
 
-class User
+use App\Core\Contract\EntityInterface;
+use App\Enum\Role;
+
+class User implements EntityInterface
 {
     private int $id;
 
@@ -10,7 +13,7 @@ class User
 
     private string $password;
 
-    private string $role;
+    private Role $role;
 
     /**
      * @return int
@@ -23,9 +26,11 @@ class User
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -57,7 +62,8 @@ class User
      */
     public function setPassword(string $password, bool $hashed = false): void
     {
-        if (false === $hashed) $password = password_hash($password, PASSWORD_DEFAULT);
+        if (false === $hashed)
+            $password = password_hash($password, PASSWORD_DEFAULT);
 
         $this->password = $password;
     }
@@ -65,7 +71,7 @@ class User
     /**
      * @return string
      */
-    public function getRole(): string
+    public function getRole(): ?Role
     {
         return $this->role;
     }
@@ -73,8 +79,17 @@ class User
     /**
      * @param string $role
      */
-    public function setRole(string $role): void
+    public function setRole(Role $role): void
     {
         $this->role = $role;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'role' => $this->getRole()->value
+        ];
     }
 }
