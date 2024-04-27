@@ -8,5 +8,7 @@ interface TemplateInterface
 {
     public function getTemplate(): string;
 
-    public function setUserTemplateFromConfiguration(User $user, array $roles) : void;
+    public function setTemplateName(string $template): self;
+
+    public function setUserTemplateFromConfiguration(User $user, array $roles): void;
 }

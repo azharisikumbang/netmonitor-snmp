@@ -8,5 +8,7 @@ interface RouterInterface
 
     public function build(): self;
 
-    public function getResponse() : ResponseInterface;
+    public function getResponse(): ResponseInterface;
+
+    public function getPath(): string;
 }
