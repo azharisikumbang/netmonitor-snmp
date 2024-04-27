@@ -2,11 +2,15 @@
 
 namespace App\Core;
 
+use App\Enum\Role;
+use App\Entities\User;
+
 class Session implements Contract\SessionInterface
 {
     public function __construct()
     {
-        if(session_status() !== PHP_SESSION_ACTIVE) session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE)
+            session_start();
     }
 
     public function all(): array
@@ -37,5 +41,11 @@ class Session implements Contract\SessionInterface
     public function exists(string $key): bool
     {
         // TODO: Implement exists() method.
+        return true;
+    }
+
+    public function auth(): null|array
+    {
+        return session('auth');
     }
 }
