@@ -64,7 +64,7 @@ if (!function_exists('assets'))
     }
 }
 
-if (!(function_exists('get_current_path')))
+if (!(function_exists('get_current_route')))
 {
     function get_current_route(bool $full = false): string
     {
