@@ -226,6 +226,15 @@ if (!(function_exists('html_form_success')))
     }
 }
 
+
+if (!(function_exists('html_load_component')))
+{
+    function html_load_component(string $name, array $data): void
+    {
+        require __DIR__ . sprintf("/../frontend/components/%s.php", $name);
+    }
+}
+
 if (!(function_exists('load_externals')))
 {
     function load_externals(callable $callback): void
