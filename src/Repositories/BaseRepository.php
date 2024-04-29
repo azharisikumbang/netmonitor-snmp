@@ -98,9 +98,9 @@ abstract class BaseRepository
         return (bool) $stmt->fetch(PDO::FETCH_ASSOC)['exists'];
     }
 
-    public function findBy(string $column, mixed $value, string $agg = "="): array
+    public function findBy(string $column, mixed $value, string $agg = "=", int $length = 10, int $start = 0, string $order = 'id', string $by = 'DESC'): array
     {
-        $query = "SELECT * from {$this->getTable()} WHERE {$column} {$agg} :{$column}";
+        $query = "SELECT * from {$this->getTable()} WHERE {$column} {$agg} :{$column} ORDER BY {$order} {$by} LIMIT {$start}, {$length}";
         $stmt = $this->getDatabaseConnection()->prepare($query);
         $stmt->execute([$column => $value]);
 
