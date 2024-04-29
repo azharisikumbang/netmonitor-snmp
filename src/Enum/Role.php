@@ -4,13 +4,13 @@ namespace App\Enum;
 
 enum Role: string
 {
-    case ADMINISTRATOR = 'administrator';
+    case ADMINISTRATOR = 'ADMINISTRATOR';
 
-    case OPERATOR = 'operator';
+    case OPERATOR = 'OPERATOR';
 
-    case TECHNICIAN = 'technician';
+    case TECHNICIAN = 'TECHNICIAN';
 
-    case PUBLIC = 'public';
+    case PUBLIC = 'PUBLIC';
 
     public function pageTemplate()
     {
@@ -31,6 +31,17 @@ enum Role: string
             Role::OPERATOR => 'operator/dashboard',
             Role::TECHNICIAN => 'technician/dashboard',
             default => 'public'
+        };
+    }
+
+    public function displayAs()
+    {
+        return match ($this)
+        {
+            Role::ADMINISTRATOR => 'Administrator',
+            Role::OPERATOR => 'Operator',
+            Role::TECHNICIAN => 'Teknisi Lapangan',
+            default => 'Tanpa Grup'
         };
     }
 }
