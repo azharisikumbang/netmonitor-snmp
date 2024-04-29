@@ -30,7 +30,7 @@ class Session implements Contract\SessionInterface
 
     public function remove(string $key): void
     {
-        // TODO: Implement remove() method.
+        unset($_SESSION[$key]);
     }
 
     public function destroy(): void
