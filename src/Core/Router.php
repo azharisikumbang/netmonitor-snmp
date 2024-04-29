@@ -8,7 +8,7 @@ use App\Core\Contract\RouterInterface;
 
 class Router implements RouterInterface
 {
-    const PATH_QUERY_NAME = 'path';
+    const PATH_QUERY_NAME = '_path';
 
     private string $pagesLocation;
 
@@ -20,7 +20,8 @@ class Router implements RouterInterface
 
     public function __construct(
         private readonly RequestInterface $request
-    ){}
+    ) {
+    }
 
     public function getRequest(): RequestInterface
     {
@@ -40,7 +41,8 @@ class Router implements RouterInterface
     public function build(): RouterInterface
     {
         $path = rtrim($this->getPath(), DIRECTORY_SEPARATOR);
-        if(false === $this->isPageExists($path)) return $this->makeNotFound();
+        if (false === $this->isPageExists($path))
+            return $this->makeNotFound();
 
         $this->found = true;
         $this->page = sprintf("%s/%s.php", $this->pagesLocation, $path);
@@ -48,7 +50,7 @@ class Router implements RouterInterface
         return $this;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->request->get(self::PATH_QUERY_NAME) ?? 'home';
     }
@@ -56,9 +58,10 @@ class Router implements RouterInterface
     /**
      * @throws \Exception
      */
-    public function setPagesLocation(string $location) : self
+    public function setPagesLocation(string $location): self
     {
-        if (file_exists($location)) {
+        if (file_exists($location))
+        {
             $this->pagesLocation = rtrim($location, DIRECTORY_SEPARATOR);
 
             return $this;
@@ -75,7 +78,8 @@ class Router implements RouterInterface
     private function makeNotFound(): self
     {
         $page = sprintf("%s/static/404.php", $this->pagesLocation);
-        if(file_exists($page)) $this->page = $page;
+        if (file_exists($page))
+            $this->page = $page;
 
         return $this;
     }
