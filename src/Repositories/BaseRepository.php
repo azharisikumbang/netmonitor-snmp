@@ -98,13 +98,17 @@ abstract class BaseRepository
         return (bool) $stmt->fetch(PDO::FETCH_ASSOC)['exists'];
     }
 
-    public function findBy(string $column, mixed $value, string $agg = "="): ?EntityInterface
+    public function findBy(string $column, mixed $value, string $agg = "="): array
     {
         $query = "SELECT * from {$this->getTable()} WHERE {$column} {$agg} :{$column}";
         $stmt = $this->getDatabaseConnection()->prepare($query);
         $stmt->execute([$column => $value]);
 
-        return $stmt->rowCount() ? $this->toEntity($stmt->fetch(PDO::FETCH_ASSOC)) : null;
+        $result = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            $result[] = $this->toEntity($row);
+
+        return $result;
     }
 
     public function searchBy(string $column, mixed $value, int $length = 10, int $start = 0, string $order = 'id', string $by = 'DESC'): array
