@@ -208,6 +208,24 @@ if (!(function_exists('html_server_error')))
     }
 }
 
+if (!(function_exists('html_form_errors')))
+{
+    function html_form_errors(array $errors): void
+    {
+        foreach ($errors as $error):
+            require __DIR__ . '/../frontend/components/form-warning-alert.php';
+        endforeach;
+    }
+}
+
+if (!(function_exists('html_form_success')))
+{
+    function html_form_success(string $message): void
+    {
+        require __DIR__ . '/../frontend/components/form-success-alert.php';
+    }
+}
+
 if (!(function_exists('load_externals')))
 {
     function load_externals(callable $callback): void
