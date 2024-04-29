@@ -7,7 +7,11 @@ use App\Enum\Role;
 
 class User implements EntityInterface
 {
+    use Traits\HasTimestamp;
+
     private int $id;
+
+    private string $name;
 
     private string $username;
 
@@ -31,6 +35,22 @@ class User implements EntityInterface
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**
@@ -83,6 +103,8 @@ class User implements EntityInterface
     {
         $this->role = $role;
     }
+
+
 
     public function toArray(): array
     {
