@@ -107,6 +107,22 @@ abstract class BaseRepository
         return $stmt->rowCount() ? $this->toEntity($stmt->fetch(PDO::FETCH_ASSOC)) : null;
     }
 
+    public function searchBy(string $column, mixed $value, int $length = 10, int $start = 0, string $order = 'id', string $by = 'DESC'): array
+    {
+        $query = "SELECT * FROM {$this->getTable()} WHERE {$column} LIKE :{$column} ORDER BY {$order} {$by} LIMIT {$start}, {$length}";
+
+        $stmt = $this->getDatabaseConnection()->prepare($query);
+        $stmt->execute([
+            $column => "%" . $value . "%"
+        ]);
+
+        $result = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            $result[] = $this->toEntity($row);
+
+        return $result;
+    }
+
     protected function execute($query, array $bind = []): false|PDOStatement
     {
         $stmt = $this->getDatabaseConnection()->prepare($query);
