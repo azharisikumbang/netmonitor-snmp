@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Core\Contract\EntityInterface;
 use App\Entities\User;
 use App\Enum\Role;
+use DateTimeImmutable;
 
 
 class UserRepository extends BaseRepository
@@ -21,9 +22,11 @@ class UserRepository extends BaseRepository
     {
         $user = new User();
         $user->setId($rows['id']);
+        $user->setName($rows['name']);
         $user->setUsername($rows['username']);
         $user->setPassword($rows['password'], true);
-        $user->setRole(Role::from(strtolower($rows['role'])));
+        $user->setRole(Role::from($rows['role']));
+        $user->setCreatedAt(new DateTimeImmutable($rows['created_at']));
 
         return $user;
     }
