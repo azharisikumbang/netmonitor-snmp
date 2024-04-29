@@ -34,8 +34,8 @@
                 </div>
                 <div class="italic text-sm text-gray-400">
                     <span>Login sebagai <?= $akun->getUsername() ?></span> -
-                    <span class="hover:text-red-800 hover:underline text-red-500 cursor-pointer"
-                        @click="window.location.reload()">muat ulang halaman</span>
+                    <a class="hover:text-red-800 hover:underline text-red-500 cursor-pointer"
+                        href="<?= get_current_route(true) ?>">muat ulang halaman</a>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
                                             Pengguna</a>
                                     </li>
                                     <li>
-                                        <a href="<?= site_url('admin/kelola/takaran') ?>"
+                                        <a href="<?= site_url('administrator/users-and-groups/groups') ?>"
                                             class="flex items-center py-2 pl-10 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100">
                                             Kelola Grup
                                         </a>
