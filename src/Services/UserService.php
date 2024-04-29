@@ -12,7 +12,7 @@ class UserService
 
     public function retriveUserList(int $length = 10, int $start = 0, string $search = "", string $role = ""): array
     {
-        $start = ($length * $start) - $start;
+        $start = ($length * $start) - $length;
 
         if ($search == "" && $role == "")
             return $this->userRepository->get($length, $start, 'role', 'ASC');
@@ -21,7 +21,7 @@ class UserService
             return $this->userRepository->searchBy('name', $search, $length, $start, 'role', 'ASC');
 
         if ($role != "")
-            return $this->userRepository->findBy('role', $role);
+            return $this->userRepository->findBy('role', $role, "=", $length, $start, 'role', 'ASC');
 
         return [];
     }
