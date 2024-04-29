@@ -1,10 +1,16 @@
 <?php
 
-$page = $_GET['page'] ?? 0;
+$page = $_GET['page'] ?? 1;
 $total = $_GET['total'] ?? 10;
 $search = $_GET['search'] ?? '';
 $group = $_GET['group'] ?? '';
 
+// buld query for paginations
+unset($_GET[\App\Core\Router::PATH_QUERY_NAME]);
+unset($_GET['page']);
+$queryString = http_build_query($_GET);
+
+// retrieve data
 $users = service(\App\Services\UserService::class)->retriveUserList($total, $page, $search, $group);
 $roles = \App\Enum\Role::cases();
 
@@ -26,21 +32,7 @@ $roles = \App\Enum\Role::cases();
 
 <div class="mt-4">
     <div class="flex justify-between items-end">
-        <form action="" method="get">
-            <div class="label">
-                <span class="label-text">Cari nama pengguna</span>
-            </div>
-            <label class="input input-bordered flex items-center gap-2">
-                <input type="text" name="search" class="grow w-96" placeholder="Tekan enter untuk mencari.."
-                    value="<?= $search ?>" />
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                    class="w-4 h-4 opacity-70">
-                    <path fill-rule="evenodd"
-                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                        clip-rule="evenodd" />
-                </svg>
-            </label>
-        </form>
+        <?= html_load_component('form-search-table-panel', ['title' => 'Cari nama pengguna', 'value' => $search]) ?>
         <form action="" method="get">
             <div class="flex justify-end gap-2 items-end">
                 <div>
@@ -49,27 +41,16 @@ $roles = \App\Enum\Role::cases();
                             <span class="label-text">Saring berdasarkan grup pengguna</span>
                         </div>
                         <select class="select select-bordered" name="group">
-                            <option disabled selected>Pilih satu</option>
+                            <option value="">-- Tampilkan Semua --</option>
                             <?php foreach ($roles as $role)
                             { ?>
                                 <option value="<?= $role->value ?>" <?= $group == $role->name ? 'selected' : '' ?>>
-                                    <?= $role->displayAs() ?></option>
+                                    <?= $role->displayAs() ?>
+                                </option>
                             <?php } ?>
                         </select>
                     </label>
                 </div>
-                <!-- <div>
-                    <label class="form-control w-full max-w-xs">
-                        <div class="label">
-                            <span class="label-text">Saring berdasarkan status</span>
-                        </div>
-                        <select class="select select-bordered">
-                            <option disabled selected>Pilih Satu</option>
-                            <option>Karyawan Aktif</option>
-                            <option>Karyawan Non-Aktif</option>
-                        </select>
-                    </label>
-                </div> -->
                 <div>
                     <button class="btn">Terapkan Penyaringan</button>
                 </div>
@@ -79,7 +60,6 @@ $roles = \App\Enum\Role::cases();
     <div class="mt-4">
         <div class="overflow-x-auto">
             <table class="table">
-                <!-- head -->
                 <thead>
                     <tr class="uppercase font-bold">
                         <th class="w-8"></th>
@@ -100,7 +80,6 @@ $roles = \App\Enum\Role::cases();
                     {
                         $no = 1;
                         foreach ($users as $user)
-                        /** @var \App\Entities\User $user */
                         { ?>
                             <tr class="hover">
                                 <th><?= $no++ ?></th>
@@ -108,6 +87,16 @@ $roles = \App\Enum\Role::cases();
                                 <td><?= $user->getRole()->displayAs() ?></td>
                                 <td><?= $user->getUsername() ?></td>
                                 <td><?= $user->getCreatedAt()->format("d/m/Y H:i:s") ?> WIB</td>
+                                <td class="w-48">
+                                    <div class="flex justify-end gap-4">
+                                        <a class="link link-accent font-normal"
+                                            href="<?= site_url('administrator/users-and-groups/users/' . $user->getId() . '/edit') ?>">
+                                            Edit</a>
+                                        <a class="link link-accent font-normal"
+                                            href="<?= site_url('administrator/users-and-groups/users/' . $user->getId()) ?>">Lihat
+                                            Data</a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php }
                     }
@@ -115,9 +104,6 @@ $roles = \App\Enum\Role::cases();
                 </tbody>
             </table>
         </div>
-        <div class="join mt-8 flex justify-end">
-            <a class="join-item btn" href="?page=<?= $page - 1 ?>">« Sebelumnya</a>
-            <a class="join-item btn" href="?page=<?= $page + 1 ?>">Selanjutnya »</a>
-        </div>
+        <?php html_load_component('table-pagination', ['page' => $page, 'query' => $queryString]) ?>
     </div>
 </div>
