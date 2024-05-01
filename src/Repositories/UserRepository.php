@@ -33,6 +33,8 @@ class UserRepository extends BaseRepository
 
     public function findByUsername(string $username): ?User
     {
-        return $this->findBy('username', $username);
+        $user = $this->findBy('username', $username);
+
+        return $user ? $user[0] : null;
     }
 }
