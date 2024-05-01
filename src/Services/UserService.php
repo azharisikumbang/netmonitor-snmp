@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\User;
 use App\Repositories\UserRepository;
 
 class UserService
@@ -24,5 +25,10 @@ class UserService
             return $this->userRepository->findBy('role', $role, "=", $length, $start, 'role', 'ASC');
 
         return [];
+    }
+
+    public function getUserDetail(int $idUser): ?User
+    {
+        return $this->userRepository->findById($idUser);
     }
 }
