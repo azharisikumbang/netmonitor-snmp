@@ -13,6 +13,10 @@ class User implements EntityInterface
 
     private string $name;
 
+    private ?string $contact;
+
+    private ?string $address;
+
     private string $username;
 
     private string $password;
@@ -52,6 +56,40 @@ class User implements EntityInterface
     {
         $this->name = $name;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getContact(): ?string
+    {
+        return $this->contact;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setContact(?string $contact): void
+    {
+        $this->contact = $contact;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setAddress(?string $address): void
+    {
+        $this->address = $address;
+    }
+
 
     /**
      * @return string
@@ -104,12 +142,13 @@ class User implements EntityInterface
         $this->role = $role;
     }
 
-
-
     public function toArray(): array
     {
         return [
             'id' => $this->getId(),
+            'name' => $this->getName(),
+            'contact' => $this->getContact(),
+            'address' => $this->getAddress(),
             'username' => $this->getUsername(),
             'role' => $this->getRole()->value
         ];
