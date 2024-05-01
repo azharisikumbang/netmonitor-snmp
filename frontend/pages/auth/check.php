@@ -1,4 +1,5 @@
 <?php
+use App\Enum\EntityRowStatus;
 use App\Helpers\SessionManager;
 
 if (session()->auth())
@@ -20,6 +21,9 @@ $user = $authenticator->check($username, $password);
 
 if (false === $user)
     response()->redirectTo(site_url('auth/login'), ['status' => false, 'message' => 'Username atau password salah, silahkan coba kembali.']);
+
+if ($user->getEntityRowStatus() === EntityRowStatus::NONACTIVE)
+    response()->redirectTo(site_url('auth/login'), ['status' => false, 'message' => 'Akun telah dinonaktifkan.']);
 
 // authenticated
 SessionManager::createAuthenticatedSession($user);
