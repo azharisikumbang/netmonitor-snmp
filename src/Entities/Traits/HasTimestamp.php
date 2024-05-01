@@ -11,6 +11,13 @@ trait HasTimestamp
 
     private ?DateTimeImmutable $updatedAt;
 
+    protected bool $hasTimestamp = true;
+
+    public function hasTimestamp(): bool
+    {
+        return $this->hasTimestamp;
+    }
+
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -35,8 +42,13 @@ trait HasTimestamp
         return $this->updatedAt;
     }
 
-    public function hasTimestamp(): bool
+    public function getCreatedAtAsString(string $format = "d-m-Y H:i:s T"): string
     {
-        return true;
+        return $this->getCreatedAt() ? $this->getCreatedAt()->format($format) : "-";
+    }
+
+    public function getUpdatedAtAsString(string $format = "d-m-Y H:i:s T"): string
+    {
+        return $this->getUpdatedAt() ? $this->getUpdatedAt()->format($format) : "-";
     }
 }
