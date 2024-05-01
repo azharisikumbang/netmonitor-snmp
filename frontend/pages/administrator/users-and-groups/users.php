@@ -90,10 +90,10 @@ $roles = \App\Enum\Role::cases();
                                 <td class="w-48">
                                     <div class="flex justify-end gap-4">
                                         <a class="link link-accent font-normal"
-                                            href="<?= site_url('administrator/users-and-groups/users/' . $user->getId() . '/edit') ?>">
+                                            href="<?= site_url('administrator/users-and-groups/users/edit?id=' . $user->getId()) ?>">
                                             Edit</a>
                                         <a class="link link-accent font-normal"
-                                            href="<?= site_url('administrator/users-and-groups/users/' . $user->getId()) ?>">Lihat
+                                            href="<?= site_url('administrator/users-and-groups/users/detail?id=' . $user->getId()) ?>">Lihat
                                             Data</a>
                                     </div>
                                 </td>
