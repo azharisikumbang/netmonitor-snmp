@@ -59,14 +59,19 @@ abstract class BaseRepository
         if (false === $this->exists($entity))
             return false;
 
+        if ($entity->hasTimestamp())
+            $attributes['updated_at'] = date('Y-m-d H:i:s');
+
         $bindKeys = [];
         foreach ($attributes as $attr => $value)
             $bindKeys[] = $attr . " = :" . $attr;
         $bindKeys = implode(", ", $bindKeys);
 
+
         $query = $this
             ->getDatabaseConnection()
             ->prepare("UPDATE {$this->getTable()} SET {$bindKeys} WHERE id = :id");
+
 
         return $query->execute([
             'id' => is_int($entity) ? $entity : $entity->getId(),

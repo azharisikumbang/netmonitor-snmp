@@ -9,4 +9,6 @@ interface EntityInterface
     public function setId(int $id): self;
 
     public function toArray(): array;
+
+    public function hasTimestamp(): bool;
 }
