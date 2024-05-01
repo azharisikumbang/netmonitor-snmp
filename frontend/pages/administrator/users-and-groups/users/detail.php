@@ -1,5 +1,8 @@
 <?php
 
+if (is_null(session()->auth()))
+    response()->redirect(site_url("auth/login"));
+
 $idUser = $_GET['id'] ?? null;
 if (empty($idUser) || is_null($idUser))
     response()->notFound();
@@ -18,6 +21,12 @@ $user = service(\App\Services\UserService::class)->getUserDetail($idUser);
         </ul>
     </div>
 </div>
+
+<?php if (session('temp') != null)
+{
+    html_form_success(session('temp'));
+} ?>
+
 <div class="mt-8">
     <div class="flex justify-between items-center mb-2">
         <h2 class="font-bold text-lg">
@@ -38,14 +47,11 @@ $user = service(\App\Services\UserService::class)->getUserDetail($idUser);
         </tr>
         <tr class="hover">
             <td class="w-48">Kontak / No. Handphone</td>
-            <td>: <?= "0812-3456-7890"; // TODO: Nomor handphone belum diimplementasikan  ?></td>
+            <td>: <?= $user->getContact(); ?></td>
         </tr>
         <tr class="hover">
             <td class="w-48">Alamat Lengkap</td>
-            <td>: Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde quisquam hic labore
-                alias praesentium
-                dicta quaerat libero, atque sint, blanditiis incidunt accusantium ipsam nemo! Saepe placeat deserunt
-                beatae ratione reiciendis.</td>
+            <td>: <?= $user->getAddress() ?></td>
         </tr>
     </table>
 
@@ -63,11 +69,11 @@ $user = service(\App\Services\UserService::class)->getUserDetail($idUser);
         </tr>
         <tr class="hover">
             <td class="w-48">Bergabung Pada</td>
-            <td>: <?= $user->getCreatedAt()->format("d/m/y H:i:s") ?> WIB</td>
+            <td>: <?= $user->getCreatedAt()->format("d-m-Y H:i:s") ?> WIB</td>
         </tr>
         <tr class="hover">
             <td class="w-48">Terakhir Diperbaharui</td>
-            <td>: -</td>
+            <td>: <?= $user->getUpdatedAt()->format("d-m-Y H:i:s") ?> WIB</td>
         </tr>
     </table>
 </div>
