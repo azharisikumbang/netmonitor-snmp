@@ -3,12 +3,11 @@
 namespace App\Services;
 
 use App\Core\Request;
-use App\Entities\User;
 use App\Enum\Role;
 use App\Helpers\RequestValidator;
 use App\Repositories\UserRepository;
 
-class UserCreatorService
+class CreateNewUserService
 {
     public function __construct(private readonly UserRepository $userRepository)
     {

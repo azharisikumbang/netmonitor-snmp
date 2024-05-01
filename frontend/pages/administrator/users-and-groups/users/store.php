@@ -6,11 +6,11 @@ if (!session()->auth())
 if (!request()->isPostRequest())
     response()->notFound();
 
-use App\Services\UserCreatorService;
+use App\Services\CreateNewUserService;
 
-/** @var UserCreatorService $userCreatorService */
+/** @var CreateNewUserService $userCreatorService */
 /** @var false|\App\Entities\User $user */
-$userCreatorService = service(UserCreatorService::class);
+$userCreatorService = service(CreateNewUserService::class);
 $created = $userCreatorService->create(request());
 
 if ($created['has_error']) // has error
