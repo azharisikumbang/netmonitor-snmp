@@ -26,7 +26,7 @@ $roles = Role::cases();
     <form action="<?= site_url('administrator/users-and-groups/users/store') ?>" method="post" class="w-1/2">
         <div>
             <h2 class="font-bold text-lg">
-                Informasi Pengguna
+                Informasi Pribadi
             </h2>
             <div class="mb-2">
                 <label class="form-control w-full">
