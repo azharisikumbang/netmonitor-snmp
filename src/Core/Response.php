@@ -29,8 +29,13 @@ class Response implements Contract\ResponseInterface
 
     public function notFound(): void
     {
-        http_response_code(404);
         html_not_found();
+        exit();
+    }
+
+    public function unauthorized(): void
+    {
+        html_unauthorized();
         exit();
     }
 }

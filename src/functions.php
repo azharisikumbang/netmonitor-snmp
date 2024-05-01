@@ -183,7 +183,7 @@ if (!(function_exists('html_not_found')))
     function html_not_found(string $message = 'Tidak Ditemukan.'): void
     {
         http_response_code(404);
-        require __DIR__ . '/pages/static/404.php';
+        require __DIR__ . '/../frontend/pages/static/404.php';
         exit();
     }
 }
@@ -193,7 +193,7 @@ if (!(function_exists('html_unauthorized')))
     function html_unauthorized(string $message = 'Tidak Ditemukan.'): void
     {
         http_response_code(403);
-        require __DIR__ . '/pages/static/403.php';
+        require __DIR__ . '/../frontend/pages/static/403.php';
         exit();
     }
 }
@@ -203,7 +203,7 @@ if (!(function_exists('html_server_error')))
     function html_server_error(string $message = 'Server bersamalah, mohon hubungi administrator.'): void
     {
         http_response_code(500);
-        require __DIR__ . '/pages/static/500.php';
+        require __DIR__ . '/../frontend/pages/static/500.php';
         exit();
     }
 }
