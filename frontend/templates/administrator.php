@@ -8,6 +8,9 @@
     <title>Netmonitor - Panel Administrator</title>
     <script src="<?= assets('js/alpine.min.js') ?>" defer></script>
     <link rel="stylesheet" href="<?= assets('css/output.css') ?>">
+    <link
+        href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERERAAAAAAAAERAQAAAAAAEBEAEAAAAAEAEQABAAAAEAARAAAQAAEAABEAAAEAEAAAEQAAABEAAAARAAAAEQAAABEAAAEAEAAAEQAAEAABAAARAAEAAAAQABEAEAAAAAEAEQEAAAAAABAREAAAAAAAAREREREREREREAAAAAP/wAAF/6AABv9gAAd+4AAHveAAB9vgAAfn4AAH5+AAB9vgAAe94AAHfuAABv9gAAX/oAAD/8AAAAAAAA"
+        rel="icon" type="image/x-icon">
 </head>
 
 <body class="" x-data="global">
@@ -34,8 +37,8 @@
                 </div>
                 <div class="italic text-sm text-gray-400">
                     <span>Login sebagai <?= $akun->getUsername() ?></span> -
-                    <a class="hover:text-red-800 hover:underline text-red-500 cursor-pointer"
-                        href="<?= get_current_route(true) ?>">muat ulang halaman</a>
+                    <a onclick="window.location.reload()"
+                        class="hover:text-red-800 hover:underline text-red-500 cursor-pointer">muat ulang halaman</a>
                 </div>
             </div>
         </div>
