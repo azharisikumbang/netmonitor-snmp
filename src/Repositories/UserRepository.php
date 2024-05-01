@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Core\Contract\EntityInterface;
 use App\Entities\User;
+use App\Enum\EntityRowStatus;
 use App\Enum\Role;
 use DateTimeImmutable;
 
@@ -28,6 +29,7 @@ class UserRepository extends BaseRepository
         $user->setUsername($rows['username']);
         $user->setPassword($rows['password'], true);
         $user->setRole(Role::from($rows['role']));
+        $user->setEntityRowStatus(EntityRowStatus::from($rows['entity_row_status']));
         $user->setCreatedAt(new DateTimeImmutable($rows['created_at']));
         $user->setUpdatedAt(
             $rows['updated_at'] ? new DateTimeImmutable($rows['updated_at']) : null

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entities\User;
+use App\Enum\EntityRowStatus;
 use App\Repositories\UserRepository;
 
 class UserService
@@ -31,4 +32,22 @@ class UserService
     {
         return $this->userRepository->findById($idUser);
     }
+
+    public function deactivateUserAccount(int|User $user): bool
+    {
+        $user = is_int($user) ? $this->userRepository->findById($user) : $user;
+
+        return $this->userRepository->update($user, [
+            "entity_row_status" => EntityRowStatus::NONACTIVE->value
+        ]);
+    }
+    public function activateUserAccount(int|User $user): bool
+    {
+        $user = is_int($user) ? $this->userRepository->findById($user) : $user;
+
+        return $this->userRepository->update($user, [
+            "entity_row_status" => EntityRowStatus::ACTIVE->value
+        ]);
+    }
+
 }

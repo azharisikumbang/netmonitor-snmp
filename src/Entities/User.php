@@ -8,6 +8,7 @@ use App\Enum\Role;
 class User implements EntityInterface
 {
     use Traits\HasTimestamp;
+    use Traits\HasEntityRowStatus;
 
     private int $id;
 
