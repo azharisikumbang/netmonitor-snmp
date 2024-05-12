@@ -20,10 +20,18 @@ $authenticator = service(AuthenticatorService::class);
 $user = $authenticator->check($username, $password);
 
 if (false === $user)
-    response()->redirectTo(site_url('auth/login'), ['status' => false, 'message' => 'Username atau password salah, silahkan coba kembali.']);
+    response()->redirectTo(site_url('auth/login'), [
+        'errors' => [
+            'wrong' => ['status' => false, 'message' => 'Username atau password salah, silahkan coba kembali.']
+        ]
+    ]);
 
 if ($user->getEntityRowStatus() === EntityRowStatus::NONACTIVE)
-    response()->redirectTo(site_url('auth/login'), ['status' => false, 'message' => 'Akun telah dinonaktifkan.']);
+    response()->redirectTo(site_url('auth/login'), [
+        'errors' => [
+            'wrong' => ['status' => false, 'message' => 'Akun telah dinonaktifkan, mohon kontak administrator.']
+        ]
+    ]);
 
 // authenticated
 SessionManager::createAuthenticatedSession($user);
