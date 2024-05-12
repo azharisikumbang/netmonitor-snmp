@@ -15,7 +15,7 @@ $updated = $userCreatorService->update(request());
 
 if ($updated['has_error'] || false === $updated) // has error
     response()->redirectTo(
-        site_url('administrator/users-and-groups/users/add'),
+        site_url('administrator/users-and-groups/users/edit'),
         [
             'errors' => $updated['errors'],
             'old' => $updated['validated']
@@ -23,4 +23,4 @@ if ($updated['has_error'] || false === $updated) // has error
     );
 
 // success
-response()->redirectTo(site_url('administrator/users-and-groups/users/detail?id=' . request()->get('id')), "Data pengguna berhasil diperbaharui.");
+response()->redirectTo(site_url('administrator/users-and-groups/users/detail?id=' . request()->get('id')), ['success' => "Data pengguna berhasil diperbaharui."]);
