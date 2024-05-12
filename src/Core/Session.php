@@ -48,4 +48,14 @@ class Session implements Contract\SessionInterface
     {
         return session('auth');
     }
+
+    public function user(): null|\App\Entities\User
+    {
+        return session('auth') ? session('auth')['users'] : null;
+    }
+
+    public function logout()
+    {
+        $this->remove('auth');
+    }
 }
