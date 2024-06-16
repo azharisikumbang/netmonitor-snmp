@@ -104,7 +104,6 @@ final class App
         $this->getManager()->getRouter()->build();
         $this->getManager()->getTemplate()->setTemplateName('public');
 
-        /** @var \App\Entities\User $user */
         $user = $this->getManager()->getSession()->get('auth');
         if ($user)
         {

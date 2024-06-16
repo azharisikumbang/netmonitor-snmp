@@ -7,6 +7,11 @@ class Configuration implements Contract\ConfigurationInterface
 
     private array $configurations = [];
 
+    public function __construct(array $config = [])
+    {
+        $this->configurations = $config;
+    }
+
     public function get(string $container, string $key): mixed
     {
         return $this->configurations[$container][$key];
@@ -17,6 +22,8 @@ class Configuration implements Contract\ConfigurationInterface
         $this->configurations[$key] = $value;
     }
 
-    public function has(string $key): bool
-    {}
+    public function has(string $container, string $key): bool
+    {
+        return array_key_exists($key, $this->configurations[$container]);
+    }
 }

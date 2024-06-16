@@ -52,7 +52,7 @@ $roles = \App\Enum\Role::cases();
                     </label>
                 </div>
                 <div>
-                    <button class="btn">Terapkan Penyaringan</button>
+                    <button class="btn btn-neutral">Terapkan Penyaringan</button>
                 </div>
             </div>
         </form>
